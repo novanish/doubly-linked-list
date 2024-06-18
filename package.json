@@ -1,0 +1,19 @@
+{
+  "name": "doubly-linked-list",
+  "description": "A robust and easy-to-use doubly linked list implementation in TypeScript, offering an API similar to JavaScript arrays.",
+  "module": "index.ts",
+  "keywords": [
+    "typescript",
+    "doubly linked list",
+    "data structures",
+    "linked list",
+    "ts-data-structures"
+  ],
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
