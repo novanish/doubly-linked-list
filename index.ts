@@ -166,7 +166,43 @@ export class DoublyLinkedList<T> {
 
   reverse(): this {
     this.isReversed = !this.isReversed;
-
     return this;
+  }
+
+  map<U>(
+    cb: (value: T, index: number, array?: Array<T>) => U,
+    thisArgs: any = null
+  ): DoublyLinkedList<U> {
+    const doubly = new DoublyLinkedList<U>();
+    const array = cb.length === 3 ? this.toArray() : [];
+    const boundedCallback = cb.bind(thisArgs)
+    let index = 0;
+    
+    for (const value of this) {
+      doubly.push(boundedCallback(value!, index, array));
+      index++;
+    }
+
+    return doubly;
+  }
+
+  public [Symbol.iterator]() {
+    let node = this.isReversed ? this.tail : this.head;
+    const isReversed = this.isReversed;
+
+    return {
+      next() {
+        const value = node?.data;
+
+        if (node == null) return { value: null, done: true };
+
+        node = node[isReversed ? "previous" : "next"];
+
+        return {
+          value: value!,
+          done: false,
+        };
+      },
+    };
   }
 }
