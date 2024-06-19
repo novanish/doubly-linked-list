@@ -32,7 +32,7 @@ test("pop", () => {
   expect(doubly.toArray()).toEqual(array);
   expect(doubly.length).toBe(array.length);
 
-  expect(new DoublyLinkedList().pop()).toBeUndefined()
+  expect(new DoublyLinkedList().pop()).toBeUndefined();
 });
 
 test("unshift", () => {
@@ -132,4 +132,23 @@ test("length", () => {
 
   doubly.push(2, 3, 4, 5);
   expect(doubly.length).toBe(5);
+});
+
+test("map", () => {
+  const array = [1, 2, 3];
+  const double = (n: number) => n * 2;
+  const list = new DoublyLinkedList<number>();
+
+  list.push(...array);
+
+  const doubledArray = array.map(double);
+  const doubledList = list.map(double);
+
+  expect(doubledList.toArray()).toEqual(doubledArray);
+
+  doubledList.reverse();
+  doubledArray.reverse();
+  expect(list.toArray()).toEqual(array);
+
+  expect(doubledList.toArray()).toEqual(doubledArray);
 });
