@@ -152,3 +152,22 @@ test("map", () => {
 
   expect(doubledList.toArray()).toEqual(doubledArray);
 });
+
+test("filter", () => {
+  const array = [1, 2, 3];
+  const isEven = (n: number) => n % 2 === 0;
+  const list = new DoublyLinkedList<number>();
+
+  list.push(...array);
+
+  const filteredArray = array.filter(isEven);
+  const filteredList = list.filter(isEven);
+
+  expect(filteredList.toArray()).toEqual(filteredArray);
+
+  filteredList.reverse();
+  filteredArray.reverse();
+  expect(list.toArray()).toEqual(array);
+
+  expect(filteredList.toArray()).toEqual(filteredArray);
+});
