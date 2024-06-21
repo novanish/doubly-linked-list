@@ -175,11 +175,28 @@ export class DoublyLinkedList<T> {
   ): DoublyLinkedList<U> {
     const doubly = new DoublyLinkedList<U>();
     const array = cb.length === 3 ? this.toArray() : [];
-    const boundedCallback = cb.bind(thisArgs)
+    const boundedCallback = cb.bind(thisArgs);
     let index = 0;
-    
+
     for (const value of this) {
       doubly.push(boundedCallback(value!, index, array));
+      index++;
+    }
+
+    return doubly;
+  }
+
+  filter(
+    cb: (value: T, index: number, array?: Array<T>) => boolean,
+    thisArgs: any = null
+  ): DoublyLinkedList<T> {
+    const doubly = new DoublyLinkedList<T>();
+    const array = cb.length === 3 ? this.toArray() : [];
+    const boundedCallback = cb.bind(thisArgs);
+    let index = 0;
+
+    for (const value of this) {
+      if (boundedCallback(value!, index, array)) doubly.push(value!);
       index++;
     }
 
