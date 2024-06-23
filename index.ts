@@ -302,6 +302,28 @@ export class DoublyLinkedList<T> {
 
     return doubly;
   }
+  
+  /**
+   * Finds and returns the first element that passes the test implemented by the provided function.
+   * @param cb The function to test each element.
+   * @param thisArgs Optional. The value to use as `this` when executing `cb`.
+   * @returns The first element that passes the test or undefined if no elements pass the test.
+   */
+  find(
+    cb: (value: T, index: number, array?: Array<T>) => boolean,
+    thisArgs: any = null
+  ): T | undefined {
+    const array = cb.length === 3 ? this.toArray() : [];
+    const boundedCallback = cb.bind(thisArgs);
+    let index = 0;
+
+    for (const value of this) {
+      if (boundedCallback(value!, index, array)) return value!;
+      index++;
+    }
+
+    return undefined;
+  }
 
   /**
    * Makes the list iterable.
