@@ -171,3 +171,26 @@ test("filter", () => {
 
   expect(filteredList.toArray()).toEqual(filteredArray);
 });
+
+
+test("find", () => {
+  const array = [1, 2, 3, 4];
+  const isEven = (n: number) => n % 2 === 0;
+  const isGreaterThanThree = (n: number) => n > 3;
+  const list = new DoublyLinkedList<number>();
+
+  list.push(...array);
+
+  expect(list.find(isEven)).toBe(2);
+
+  expect(list.find(isGreaterThanThree)).toBe(4);
+
+  const isGreaterThanFour = (n: number) => n > 4;
+  expect(list.find(isGreaterThanFour)).toBeUndefined();
+
+  list.reverse();
+  expect(list.find(isEven)).toBe(4);
+
+  const emptyList = new DoublyLinkedList<number>();
+  expect(emptyList.find(isEven)).toBeUndefined();
+});
