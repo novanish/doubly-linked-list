@@ -172,7 +172,6 @@ test("filter", () => {
   expect(filteredList.toArray()).toEqual(filteredArray);
 });
 
-
 test("find", () => {
   const array = [1, 2, 3, 4];
   const isEven = (n: number) => n % 2 === 0;
@@ -193,4 +192,38 @@ test("find", () => {
 
   const emptyList = new DoublyLinkedList<number>();
   expect(emptyList.find(isEven)).toBeUndefined();
+});
+
+test("some", () => {
+  const list = new DoublyLinkedList<number>();
+
+  expect(list.some((n) => n > 0)).toBe(false);
+
+  list.push(1, 2, 3, 4);
+
+  expect(list.some((n) => n % 2 === 0)).toBe(true); // Checks for even numbers
+
+  expect(list.some((n) => n > 4)).toBe(false);
+
+  list.reverse();
+  expect(list.some((n) => n % 2 === 0)).toBe(true);
+  expect(list.some((n) => n > 4)).toBe(false);
+});
+
+test("every", () => {
+  const list = new DoublyLinkedList<number>();
+
+  expect(list.every((n) => n > 0)).toBe(true); // Vacuously true
+
+  list.push(1, 2, 3, 4);
+
+  expect(list.every((n) => n > 0)).toBe(true);
+
+  expect(list.every((n) => n % 2 === 0)).toBe(false); // Not all elements are even
+
+  expect(list.every((n) => n < 5)).toBe(true);
+
+  list.reverse();
+  expect(list.every((n) => n > 0)).toBe(true);
+  expect(list.every((n) => n % 2 === 0)).toBe(false);
 });
