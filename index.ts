@@ -302,7 +302,7 @@ export class DoublyLinkedList<T> {
 
     return doubly;
   }
-  
+
   /**
    * Finds and returns the first element that passes the test implemented by the provided function.
    * @param cb The function to test each element.
@@ -323,6 +323,50 @@ export class DoublyLinkedList<T> {
     }
 
     return undefined;
+  }
+
+  /**
+   * Tests whether at least one element in the list passes the test implemented by the provided function.
+   * @param cb The function to test each element.
+   * @param thisArgs Optional. The value to use as `this` when executing `cb`.
+   * @returns `true` if at least one element passes the test, otherwise `false`.
+   */
+  some(
+    cb: (value: T, index: number, array?: Array<T>) => boolean,
+    thisArgs: any = null
+  ): boolean {
+    const array = cb.length === 3 ? this.toArray() : [];
+    const boundedCallback = cb.bind(thisArgs);
+    let index = 0;
+
+    for (const value of this) {
+      if (boundedCallback(value!, index, array)) return true;
+      index++;
+    }
+
+    return false;
+  }
+
+  /**
+   * Tests whether all elements in the list pass the test implemented by the provided function.
+   * @param cb The function to test each element.
+   * @param thisArgs Optional. The value to use as `this` when executing `cb`.
+   * @returns `true` if all elements pass the test, otherwise `false`.
+   */
+  every(
+    cb: (value: T, index: number, array?: Array<T>) => boolean,
+    thisArgs: any = null
+  ): boolean {
+    const array = cb.length === 3 ? this.toArray() : [];
+    const boundedCallback = cb.bind(thisArgs);
+    let index = 0;
+
+    for (const value of this) {
+      if (!boundedCallback(value!, index, array)) return false;
+      index++;
+    }
+
+    return true;
   }
 
   /**
