@@ -370,6 +370,19 @@ export class DoublyLinkedList<T> {
   }
 
   /**
+   * Tests whether the list includes a certain element.
+   * @param valueToFind The element to search for.
+   * @returns `true` if the element is found, otherwise `false`.
+   */
+  includes(valueToFind: T): boolean {
+    for (const value of this) {
+      if (value === valueToFind) return true;
+    }
+
+    return false;
+  }
+
+  /**
    * Makes the list iterable.
    * @returns An iterator for the list.
    */
