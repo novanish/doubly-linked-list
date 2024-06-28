@@ -227,3 +227,24 @@ test("every", () => {
   expect(list.every((n) => n > 0)).toBe(true);
   expect(list.every((n) => n % 2 === 0)).toBe(false);
 });
+
+test("includes", () => {
+  const list = new DoublyLinkedList<number>();
+
+  expect(list.includes(1)).toBe(false);
+
+  list.push(1, 2, 3, 4);
+
+  expect(list.includes(1)).toBe(true);
+  expect(list.includes(2)).toBe(true);
+  expect(list.includes(3)).toBe(true);
+  expect(list.includes(4)).toBe(true);
+
+  expect(list.includes(5)).toBe(false);
+
+  list.reverse();
+  expect(list.includes(1)).toBe(true);
+  expect(list.includes(2)).toBe(true);
+  expect(list.includes(3)).toBe(true);
+  expect(list.includes(4)).toBe(true);
+});
