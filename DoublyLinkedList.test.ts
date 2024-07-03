@@ -248,3 +248,46 @@ test("includes", () => {
   expect(list.includes(3)).toBe(true);
   expect(list.includes(4)).toBe(true);
 });
+
+test("slice", () => {
+  const list = new DoublyLinkedList<number>();
+  const array: Array<number> = [];
+
+  expect(list.slice(0, 0).toArray()).toEqual(array.slice(0, 0));
+  expect(list.slice(1, 1).toArray()).toEqual(array.slice(1, 1));
+
+  list.push(1, 2, 3, 4);
+  array.push(1, 2, 3, 4);
+
+  expect(list.slice(0, 1).toArray()).toEqual(array.slice(0, 1));
+  expect(list.slice(0, 2).toArray()).toEqual(array.slice(0, 2));
+  expect(list.slice(0, 3).toArray()).toEqual(array.slice(0, 3));
+  expect(list.slice(0, 5).toArray()).toEqual(array.slice(0, 4));
+
+  array.reverse();
+  list.reverse();
+
+  expect(list.slice(-1, 0).toArray()).toEqual(array.slice(-1, 0));
+  expect(list.slice(-3, 0).toArray()).toEqual(array.slice(-3, 0));
+  expect(list.slice(-5, 0).toArray()).toEqual(array.slice(-5, 0));
+
+  array.reverse();
+  list.reverse();
+
+  expect(list.slice(-1, 1).toArray()).toEqual(array.slice(-1, 1));
+  expect(list.slice(-4, 4).toArray()).toEqual(array.slice(-4, 4));
+  expect(list.slice(-5, 5).toArray()).toEqual(array.slice(-5, 5));
+
+  array.reverse();
+  list.reverse();
+
+  expect(list.slice(-2, 1).toArray()).toEqual(array.slice(-2, 1));
+  expect(list.slice(-3, 2).toArray()).toEqual(array.slice(-3, 2));
+
+  array.reverse();
+  list.reverse();
+
+  expect(list.slice(-3, -1).toArray()).toEqual(array.slice(-3, -1));
+  expect(list.slice(-4, -2).toArray()).toEqual(array.slice(-4, -2));
+  expect(list.slice(-5, -3).toArray()).toEqual(array.slice(-5, -3));
+});
