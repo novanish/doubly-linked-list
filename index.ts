@@ -252,7 +252,7 @@ export class DoublyLinkedList<T> {
    * Reverses the order of the list.
    * @returns The current list instance.
    */
-  reverse(): this {
+  public reverse(): this {
     this.isReversed = !this.isReversed;
     return this;
   }
@@ -263,7 +263,7 @@ export class DoublyLinkedList<T> {
    * @param thisArgs Optional. The value to use as `this` when executing `cb`.
    * @returns A new list with each element being the result of the `cb` function.
    */
-  map<U>(
+  public map<U>(
     cb: (value: T, index: number, array?: Array<T>) => U,
     thisArgs: any = null
   ): DoublyLinkedList<U> {
@@ -286,7 +286,7 @@ export class DoublyLinkedList<T> {
    * @param thisArgs Optional. The value to use as `this` when executing `cb`.
    * @returns A new list with the elements that pass the test.
    */
-  filter(
+  public filter(
     cb: (value: T, index: number, array?: Array<T>) => boolean,
     thisArgs: any = null
   ): DoublyLinkedList<T> {
@@ -309,7 +309,7 @@ export class DoublyLinkedList<T> {
    * @param thisArgs Optional. The value to use as `this` when executing `cb`.
    * @returns The first element that passes the test or undefined if no elements pass the test.
    */
-  find(
+  public find(
     cb: (value: T, index: number, array?: Array<T>) => boolean,
     thisArgs: any = null
   ): T | undefined {
@@ -331,7 +331,7 @@ export class DoublyLinkedList<T> {
    * @param thisArgs Optional. The value to use as `this` when executing `cb`.
    * @returns `true` if at least one element passes the test, otherwise `false`.
    */
-  some(
+  public some(
     cb: (value: T, index: number, array?: Array<T>) => boolean,
     thisArgs: any = null
   ): boolean {
@@ -353,7 +353,7 @@ export class DoublyLinkedList<T> {
    * @param thisArgs Optional. The value to use as `this` when executing `cb`.
    * @returns `true` if all elements pass the test, otherwise `false`.
    */
-  every(
+  public every(
     cb: (value: T, index: number, array?: Array<T>) => boolean,
     thisArgs: any = null
   ): boolean {
@@ -374,12 +374,46 @@ export class DoublyLinkedList<T> {
    * @param valueToFind The element to search for.
    * @returns `true` if the element is found, otherwise `false`.
    */
-  includes(valueToFind: T): boolean {
+  public includes(valueToFind: T): boolean {
     for (const value of this) {
       if (value === valueToFind) return true;
     }
 
     return false;
+  }
+
+  /**
+   * Creates a shallow copy of a portion of an array into a new array object.
+   * The original array will not be modified.
+   *
+   * @param {number} [start=0] - Zero-based index at which to start extraction.
+   *                             A negative index will be treated as `this.length + start`.
+   *                             If `start` is omitted, it defaults to `0`.
+   * @param {number} [end=this.length] - Zero-based index before which to end extraction.
+   *                                     A negative index will be treated as `this.length + end`.
+   *                                     If `end` is omitted, it defaults to `this.length`.
+   * @returns {Array} A new array containing the extracted elements.
+   */
+  public slice(start?: number, end?: number): DoublyLinkedList<T> {
+    const getActualIndex = (index: number) =>
+      index < 0 ? this.length + index : index;
+
+    const actualStart = Math.max(start == null ? 0 : getActualIndex(start), 0);
+    const actualEnd = Math.min(
+      end == null ? this.length : getActualIndex(end),
+      this.length
+    );
+
+    const doubly = new DoublyLinkedList<T>();
+    const key = this.isReversed ? "previous" : "next";
+    let node = this.getNodeAt(actualStart);
+
+    for (let i = actualStart; i < actualEnd && node !== null; i++) {
+      doubly.push(node!.data);
+      node = node![key];
+    }
+
+    return doubly;
   }
 
   /**
